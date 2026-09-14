@@ -1,7 +1,7 @@
 // Public Routes
 export const ROUTES = {
   HOME: '/',
-  PRODUCTS: '/products',
+  PRODUCTS: '/product',
   PRODUCT_DETAIL: '/products/:id',
   CONTACT: '/contact',
   MANUAL_WARRANTY: '/manual-warranty',
