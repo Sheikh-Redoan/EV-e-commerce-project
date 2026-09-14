@@ -7,15 +7,20 @@ export const loginUser = createAsyncThunk(
   async (credentials, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.post('/login', credentials);
-      const { token, data } = response.data;
-      
-      Cookie.set('authToken', token, { expires: 7 });
-      localStorage.setItem('user', JSON.stringify(data));
-      
-      return { token, user: data };
+      const userData = response.data?.data;
+      const token = userData?.token || response.data?.token;
+
+      if (token) {
+        Cookie.set('authToken', token, { expires: 7 });
+      }
+      if (userData) {
+        localStorage.setItem('user', JSON.stringify(userData));
+      }
+
+      return { token, user: userData };
     } catch (error) {
       return rejectWithValue(
-        error.response?.data?.message || 'Login failed'
+        error.response?.data?.message || 'Invalid email or password'
       );
     }
   }
@@ -26,12 +31,17 @@ export const registerUser = createAsyncThunk(
   async (userData, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.post('/register', userData);
-      const { token, data } = response.data;
-      
-      Cookie.set('authToken', token, { expires: 7 });
-      localStorage.setItem('user', JSON.stringify(data));
-      
-      return { token, user: data };
+      const responseUserData = response.data?.data;
+      const token = responseUserData?.token || response.data?.token;
+
+      if (token) {
+        Cookie.set('authToken', token, { expires: 7 });
+      }
+      if (responseUserData) {
+        localStorage.setItem('user', JSON.stringify(responseUserData));
+      }
+
+      return { token, user: responseUserData };
     } catch (error) {
       return rejectWithValue(
         error.response?.data?.message || 'Registration failed'
@@ -45,14 +55,13 @@ export const logoutUser = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       await axiosInstance.post('/logout');
-      Cookie.remove('authToken');
-      localStorage.removeItem('user');
-      return null;
     } catch (error) {
+      // Silently proceed so client-side state is cleared regardless of network error
+    } finally {
       Cookie.remove('authToken');
       localStorage.removeItem('user');
-      return null;
     }
+    return null;
   }
 );
 
@@ -74,6 +83,7 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      // Login
       .addCase(loginUser.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -90,6 +100,7 @@ const authSlice = createSlice({
         state.error = action.payload;
         state.isAuthenticated = false;
       })
+      // Register
       .addCase(registerUser.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -106,6 +117,7 @@ const authSlice = createSlice({
         state.error = action.payload;
         state.isAuthenticated = false;
       })
+      // Logout
       .addCase(logoutUser.pending, (state) => {
         state.loading = true;
       })

@@ -17,7 +17,7 @@ export default function CallToAction() {
             support@evsystems.com.au
           </a>
           <Link 
-            to="/products" 
+            to="/product" 
             className="!px-7 !py-3.5 bg-[#2BE3FF] rounded-lg text-[#05070C] text-sm font-semibold font-['DM_Sans'] hover:bg-[#2BE3FF]/80 transition-colors"
           >
             Shop the Cable

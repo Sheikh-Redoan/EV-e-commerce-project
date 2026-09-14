@@ -4,6 +4,8 @@ import { useDispatch } from 'react-redux';
 import { fetchProducts } from './redux/slices/productsSlice';
 import { ROUTES } from './config/routes';
 import './App.css';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 
 // Layout
 import MainLayout from './components/Layout/MainLayout';
@@ -14,6 +16,7 @@ import LandingPage from './pages/public/LandingPage';
 import ProductsPage from './pages/public/ProductsPage';
 import ProductDetailPage from './pages/public/ProductDetailPage';
 import ContactPage from './pages/public/ContactPage';
+import ManualWarrantyPage from './pages/public/ManualWarrantyPage';
 import NotFoundPage from './pages/public/NotFoundPage';
 
 // Pages - Auth
@@ -37,6 +40,7 @@ function App() {
 
   return (
     <Router>
+      <ToastContainer position="bottom-right" theme="dark"/>
       <MainLayout>
         <Routes>
           {/* Public Routes */}
@@ -44,6 +48,7 @@ function App() {
           <Route path={ROUTES.PRODUCTS} element={<ProductsPage />} />
           <Route path={ROUTES.PRODUCT_DETAIL} element={<ProductDetailPage />} />
           <Route path={ROUTES.CONTACT} element={<ContactPage />} />
+          <Route path={ROUTES.MANUAL_WARRANTY} element={<ManualWarrantyPage />} />
 
           {/* Auth Routes */}
           <Route path={ROUTES.LOGIN} element={<LoginPage />} />

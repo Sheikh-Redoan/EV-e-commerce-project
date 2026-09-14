@@ -14,7 +14,7 @@ export default function Banner() {
       </div>
 
       {/* Call to Action Container */}
-      <div className="relative z-10 w-full max-w-[1440px] px-10 pb-24 flex justify-center lg:justify-center lg:pl-[610px]">
+      <div className="relative z-10 w-full max-w-[1440px]  flex justify-center lg:justify-center">
         <button className="group !px-[24px] !py-[13px] rounded-[100px] border border-[#2BE3FF] text-[#2BE3FF] text-[20px] font-semibold font-['Inter'] flex items-center gap-2 hover:bg-[#2BE3FF]/10 transition-all duration-300">
           <span>Explore Product</span>
           <span className="transform group-hover:translate-x-1 transition-transform duration-300">
