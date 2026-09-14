@@ -1,13 +1,16 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 
 export default function Banner() {
+  const { data: landingPageData } = useSelector((state) => state.landingPage);
+  const bgImage = landingPageData?.banners?.[0]?.banner_image || '/LandingPageBanner.jpg';
   return (
     <div className="relative w-full h-screen bg-[#05070C] flex flex-col items-center justify-end overflow-hidden !pb-20">
 
       {/* Background Image & Overlays */}
       <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat z-0"
-        style={{ backgroundImage: "url('/LandingPageBanner.jpg')" }}
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat z-0 transition-all duration-700"
+        style={{ backgroundImage: `url('${bgImage}')` }}
       >
         {/* Figma Gradient: from-black/40 via-black/0 to-black/60 */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/60 mix-blend-multiply"></div>

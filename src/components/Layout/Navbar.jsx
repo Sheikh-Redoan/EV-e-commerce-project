@@ -1,14 +1,19 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { useAuth } from '../../hooks/useAuth';
 import { ROUTES } from '../../config/routes';
-import logo from '/logo.png';
+import fallbackLogo from '/logo.png';
+import { User } from 'lucide-react';
 
 export default function Navbar() {
   const { user, isAuthenticated, logout } = useAuth();
+  const { data: landingPageData } = useSelector((state) => state.landingPage);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
+
+  const logoUrl = landingPageData?.banners?.[0]?.banner_logo || fallbackLogo;
 
   // Close dropdown on outside click
   useEffect(() => {
@@ -32,7 +37,7 @@ export default function Navbar() {
       <div className="max-w-[1440px] !mx-auto !px-6 md:!px-10 h-24 flex justify-between items-center">
         {/* Logo */}
         <Link to="/" className="w-24 h-16 flex items-center">
-          <img src={logo} alt="EV Systems Logo" className="object-contain" />
+          <img src={logoUrl} alt="EV Systems Logo" className="object-contain w-full h-full" />
         </Link>
 
         {/* Navigation Links */}
@@ -65,17 +70,9 @@ export default function Navbar() {
                 onClick={() => setDropdownOpen(!dropdownOpen)}
                 className="flex items-center gap-3 p-1.5 rounded-full hover:bg-[#101A2C] transition-colors outline-none focus:ring-1 focus:ring-[#2BE3FF]"
               >
-                {user?.avatar ? (
-                  <img
-                    src={user.avatar}
-                    alt={user?.name || 'User'}
-                    className="w-9 h-9 rounded-full object-cover border border-[#2BE3FF]"
-                  />
-                ) : (
-                  <div className="w-9 h-9 rounded-full bg-[#1C2A40] border border-[#2BE3FF] flex items-center justify-center text-[#2BE3FF] text-xs font-bold font-['Inter']">
-                    {user?.name ? user.name.charAt(0).toUpperCase() : 'U'}
-                  </div>
-                )}
+                <div className="w-9 h-9 rounded-full bg-[#1C2A40] border border-[#2BE3FF] flex items-center justify-center text-[#2BE3FF] text-xs font-bold font-['Inter']">
+                  <User size={20} />
+                </div>
                 <span className="hidden sm:inline text-xs font-medium text-[#F5F9FF] font-['Inter'] max-w-[120px] truncate">
                   {user?.name || 'My Account'}
                 </span>

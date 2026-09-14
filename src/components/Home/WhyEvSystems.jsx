@@ -1,6 +1,7 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 
-const reasonsData = [
+const fallbackReasonsData = [
   {
     num: '01',
     title: 'Splash Resistant',
@@ -24,6 +25,9 @@ const reasonsData = [
 ];
 
 export default function WhyEvSystems() {
+  const { data: landingPageData } = useSelector((state) => state.landingPage);
+  const reasonsToDisplay = landingPageData?.whyEvSystems || fallbackReasonsData;
+
   return (
     <section className="w-full bg-[#05070C] !px-6 md:!px-20 !py-28 flex flex-col gap-14 items-center">
       <div className="w-full max-w-[1440px] flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
@@ -36,19 +40,19 @@ export default function WhyEvSystems() {
       </div>
 
       <div className="w-full max-w-[1440px] grid grid-cols-1 md:grid-cols-2 md:gap-x-12">
-        {reasonsData.map((item, index) => (
+        {reasonsToDisplay.map((item, index) => (
           <div 
-            key={index} 
+            key={item.id || index} 
             className="!py-9 border-t border-[#1C2A40] flex flex-col items-start gap-3.5 !pr-0 md:!pr-10"
           >
             <span className="text-[#2BE3FF] text-sm font-bold font-['Inter']">
-              {item.num}
+              {item.num || `0${index + 1}`}
             </span>
             <h3 className="text-[#F5F9FF] text-2xl font-bold font-['Familjen_Grotesk']">
               {item.title}
             </h3>
             <p className="text-[#8EA0BD] text-base font-normal font-['DM_Sans'] max-w-[500px]">
-              {item.desc}
+              {item.description || item.desc}
             </p>
           </div>
         ))}

@@ -4,6 +4,7 @@ import productsReducer from './slices/productsSlice';
 import cartReducer from './slices/cartSlice';
 import orderReducer from './slices/orderSlice';
 import uiReducer from './slices/uiSlice';
+import landingPageReducer from './slices/landingPageSlice';
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
     cart: cartReducer,
     order: orderReducer,
     ui: uiReducer,
+    landingPage: landingPageReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

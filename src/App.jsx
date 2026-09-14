@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { fetchProducts } from './redux/slices/productsSlice';
+import { fetchLandingPageData } from './redux/slices/landingPageSlice';
 import { ROUTES } from './config/routes';
 import './App.css';
 import 'react-toastify/dist/ReactToastify.css';
@@ -34,8 +35,9 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // Fetch products on app load
+    // Fetch products and landing page data on app load
     dispatch(fetchProducts());
+    dispatch(fetchLandingPageData());
   }, [dispatch]);
 
   return (

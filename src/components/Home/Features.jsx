@@ -1,6 +1,7 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 
-const featureData = [
+const fallbackFeatureData = [
   {
     icon: 'IP',
     title: 'IPX4 Splashproof',
@@ -24,6 +25,9 @@ const featureData = [
 ];
 
 export default function Features() {
+  const { data: landingPageData } = useSelector((state) => state.landingPage);
+  const featuresToDisplay = landingPageData?.features || fallbackFeatureData;
+
   return (
     <section className="w-full bg-[#05070C] px-6 md:!px-20 !py-24 flex flex-col items-center gap-14">
       <div className="flex flex-col items-center gap-2.5 text-center">
@@ -36,21 +40,25 @@ export default function Features() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 w-full max-w-[1440px]">
-        {featureData.map((feature, index) => (
+        {featuresToDisplay.map((feature, index) => (
           <div 
-            key={index} 
+            key={feature.id || index} 
             className="!p-[30px] bg-[#1C2A40] rounded-2xl flex flex-col items-start gap-4 hover:shadow-lg transition-shadow"
           >
-            <div className="w-12 h-12 rounded-full border-2 border-[#2BE3FF] flex justify-center items-center">
-              <span className="text-[#2BE3FF] text-sm font-bold font-['Inter']">
-                {feature.icon}
-              </span>
+            <div className="w-12 h-12 rounded-full  flex justify-center items-center overflow-hidden ">
+              {typeof feature.icon === 'string' && feature.icon.startsWith('http') ? (
+                <img src={feature.icon} alt={feature.title} className="w-full h-full object-contain" />
+              ) : (
+                <span className="text-[#2BE3FF] text-sm font-bold font-['Inter']">
+                  {feature.icon}
+                </span>
+              )}
             </div>
             <h3 className="text-[#F5F9FF] text-base font-bold font-['DM_Sans']">
               {feature.title}
             </h3>
             <p className="text-[#8EA0BD] text-sm font-normal font-['DM_Sans']">
-              {feature.desc}
+              {feature.description || feature.desc}
             </p>
           </div>
         ))}
