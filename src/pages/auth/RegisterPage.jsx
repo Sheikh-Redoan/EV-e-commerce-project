@@ -20,7 +20,7 @@ export default function RegisterPage() {
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate(ROUTES.DASHBOARD, { replace: true });
+      navigate(ROUTES.PROFILE, { replace: true });
     }
     return () => clearError();
   }, [isAuthenticated, navigate, clearError]);
@@ -36,7 +36,7 @@ export default function RegisterPage() {
     const result = await registerAction(payload);
     if (!result.error) {
       toast.success('Registration successful! Welcome aboard.');
-      navigate(ROUTES.DASHBOARD, { replace: true });
+      navigate(ROUTES.PROFILE, { replace: true });
     } else {
       toast.error(result.payload || 'Registration failed');
     }

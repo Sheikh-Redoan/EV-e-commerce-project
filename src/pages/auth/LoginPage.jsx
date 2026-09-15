@@ -20,16 +20,16 @@ export default function LoginPage() {
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate(from, { replace: true });
+      navigate(ROUTES.PROFILE, { replace: true });
     }
     return () => clearError();
-  }, [isAuthenticated, navigate, from, clearError]);
+  }, [isAuthenticated, navigate, clearError]);
 
   const onSubmit = async (data) => {
     const result = await login(data);
     if (!result.error) {
       toast.success('Welcome back!');
-      navigate(from, { replace: true });
+      navigate(ROUTES.PROFILE, { replace: true });
     } else {
       toast.error(result.payload || 'Login failed');
     }

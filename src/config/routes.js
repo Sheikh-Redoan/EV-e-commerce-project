@@ -51,6 +51,7 @@ export const API_ENDPOINTS = {
   CHANGE_PASSWORD: '/profile-change-password',
   UPDATE_ADDRESS: '/profile-change-address',
   UPDATE_LOCATION: '/profile-update-location',
+  DELETE_PROFILE: '/profile-delete',
   
   // Payment
   PAYPAL_PAYMENT: '/paypal/payment',
