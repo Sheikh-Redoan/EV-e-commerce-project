@@ -19,6 +19,7 @@ import ProductDetailPage from './pages/public/ProductDetailPage';
 import ContactPage from './pages/public/ContactPage';
 import ManualWarrantyPage from './pages/public/ManualWarrantyPage';
 import NotFoundPage from './pages/public/NotFoundPage';
+import PaymentSuccessPage from './pages/public/PaymentSuccessPage';
 
 // Pages - Auth
 import LoginPage from './pages/auth/LoginPage';
@@ -56,6 +57,7 @@ function App() {
           <Route path={ROUTES.LOGIN} element={<LoginPage />} />
           <Route path={ROUTES.REGISTER} element={<RegisterPage />} />
           <Route path={ROUTES.FORGOT_PASSWORD} element={<ForgotPasswordPage />} />
+          <Route path={ROUTES.PAYMENT_SUCCESS} element={<PaymentSuccessPage />} />
 
           {/* Protected Routes */}
           <Route
