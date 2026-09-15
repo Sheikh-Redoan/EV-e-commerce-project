@@ -1,31 +1,41 @@
 import React from 'react';
 
-const features = [
-  {
-    tag: 'IPX4 SPLASH RESISTANT',
-    title: 'Built to Handle Every Splash',
-    desc: 'Rated to withstand splashing water from any direction, so you can plug in with confidence in any weather.',
-    imgAlt: '[ PHOTO: cable plug in the rain, water droplets on connector ]'
-  },
-  {
-    tag: 'RETRACTABLE SPRING REEL',
-    title: 'Effortless Everyday Storage',
-    desc: 'Automatically retracts for neat, tangle-free storage — pull out, plug in, and charge with convenience.',
-    imgAlt: '[ PHOTO: close-up of retractable reel mechanism ]'
-  },
-  {
-    tag: '-30°C COLD WEATHER READY',
-    title: 'Engineered for Harsh Winters',
-    desc: 'Stays flexible and reliable from -30°C to 50°C — tested to perform in real winter conditions.',
-    imgAlt: '[ PHOTO: cable reel mounted outdoors, frost/cold ambience ]'
-  },
-  {
-    tag: '11kW TYPE 2 CONNECTOR',
-    title: 'High-Speed Home Charging',
-    desc: '16A Type 2 connector delivers efficient, fast charging for your EV — safe, reliable, and built to last.',
-    imgAlt: '[ PHOTO: connector close-up, pins detail ]'
-  }
-];
+const apiResponse = {
+    "status": true,
+    "message": "Product conditions fetched successfully",
+    "data": [
+        {
+            "id": 4,
+            "title": "11kW TYPE 2 CONNECTOR",
+            "subtitle": "High-Speed Home Charging",
+            "description": "16A Type 2 connector delivers efficient, fast charging for your EV — safe, reliable, and built to last.",
+            "image": "https://admin.evsystems.com.au/uploads/everycondition-terms/1789447122_6aa8cbd2cf792.jpg"
+        },
+        {
+            "id": 3,
+            "title": "RETRACTABLE SPRING REEL",
+            "subtitle": "Effortless Everyday Storage",
+            "description": "Automatically retracts for neat, tangle-free storage — pull out, plug in, and charge with convenience.",
+            "image": "https://admin.evsystems.com.au/uploads/everycondition-terms/1789447106_6aa8cbc220b88.jpg"
+        },
+        {
+            "id": 2,
+            "title": "-30°C COLD WEATHER READY",
+            "subtitle": "Engineered for Harsh Winters",
+            "description": "Stays flexible and reliable from -30°C to 50°C — tested to perform in real winter conditions.",
+            "image": "https://admin.evsystems.com.au/uploads/everycondition-terms/1789447090_6aa8cbb240086.jpg"
+        },
+        {
+            "id": 1,
+            "title": "IPX4 SPLASH RESISTANT",
+            "subtitle": "Built to Handle Every Splash",
+            "description": "Rated to withstand splashing water from any direction, so you can plug in with confidence in any weather.",
+            "image": "https://admin.evsystems.com.au/uploads/everycondition-terms/1789447068_6aa8cb9cc4e15.jpg"
+        }
+    ]
+};
+
+const features = apiResponse.data;
 
 export default function ProductFeatures() {
   return (
@@ -36,22 +46,24 @@ export default function ProductFeatures() {
         </div>
         
         <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-6 overflow-hidden">
-          {features.map((feature, idx) => (
-            <div key={idx} className="self-stretch bg-[#0A1119] rounded-2xl outline outline-1 outline-offset-[-1px] outline-[#1C2A40] flex flex-col justify-start items-start overflow-hidden">
+          {features.map((feature) => (
+            <div key={feature.id} className="self-stretch bg-[#0A1119] rounded-2xl outline outline-1 outline-offset-[-1px] outline-[#1C2A40] flex flex-col justify-start items-start overflow-hidden">
               <div className="self-stretch h-56 relative bg-[#101A2C] overflow-hidden">
-                <div className="left-[16px] top-[190px] absolute justify-start text-[#8EA0BD] text-xs font-normal font-['Inter']">
-                  {feature.imgAlt}
-                </div>
+                <img 
+                  src={feature.image} 
+                  alt={feature.title} 
+                  className="w-full h-full object-cover transition-transform duration-700 hover:scale-105" 
+                />
               </div>
               <div className="self-stretch !px-7 !pt-6 !pb-7 flex flex-col justify-start items-start gap-2 overflow-hidden">
                 <div className="justify-start text-[#2BE3FF] text-xs font-semibold font-['Inter'] tracking-wider">
-                  {feature.tag}
-                </div>
-                <div className="justify-start text-[#F5F9FF] text-lg font-bold font-['Inter']">
                   {feature.title}
                 </div>
+                <div className="justify-start text-[#F5F9FF] text-lg font-bold font-['Inter']">
+                  {feature.subtitle}
+                </div>
                 <div className="w-full max-w-[500px] justify-start text-[#8EA0BD] text-xs font-normal font-['Inter'] leading-relaxed">
-                  {feature.desc}
+                  {feature.description}
                 </div>
               </div>
             </div>

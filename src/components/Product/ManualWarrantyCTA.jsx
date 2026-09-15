@@ -14,11 +14,11 @@ export default function ManualWarrantyCTA() {
           </div>
         </div>
         <Link 
-          to="/manual-warranty"
+          to="/contact"
           className="!px-6 !py-3 rounded-[100px] outline outline-1 outline-offset-[-1px] outline-[#2BE3FF] flex justify-start items-center gap-2 overflow-hidden hover:bg-[#2BE3FF]/10 transition-colors whitespace-nowrap"
         >
           <div className="justify-start text-[#2BE3FF] text-sm font-semibold font-['Inter']">
-            Manual & Warranty &rarr;
+            Contact us &rarr;
           </div>
         </Link>
       </div>

@@ -19,9 +19,17 @@ export const loginUser = createAsyncThunk(
 
       return { token, user: userData };
     } catch (error) {
-      return rejectWithValue(
-        error.response?.data?.message || 'Invalid email or password'
-      );
+      let errorMessage = error.response?.data?.message || 'Invalid email or password';
+      
+      if (error.response?.status === 422 && error.response?.data?.data) {
+        const validationErrors = error.response.data.data;
+        const firstKey = Object.keys(validationErrors)[0];
+        if (firstKey && validationErrors[firstKey].length > 0) {
+          errorMessage = validationErrors[firstKey][0];
+        }
+      }
+
+      return rejectWithValue(errorMessage);
     }
   }
 );
@@ -43,9 +51,17 @@ export const registerUser = createAsyncThunk(
 
       return { token, user: responseUserData };
     } catch (error) {
-      return rejectWithValue(
-        error.response?.data?.message || 'Registration failed'
-      );
+      let errorMessage = error.response?.data?.message || 'Registration failed';
+      
+      if (error.response?.status === 422 && error.response?.data?.data) {
+        const validationErrors = error.response.data.data;
+        const firstKey = Object.keys(validationErrors)[0];
+        if (firstKey && validationErrors[firstKey].length > 0) {
+          errorMessage = validationErrors[firstKey][0];
+        }
+      }
+
+      return rejectWithValue(errorMessage);
     }
   }
 );

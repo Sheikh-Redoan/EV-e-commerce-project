@@ -10,10 +10,20 @@ export default function Navbar() {
   const { user, isAuthenticated, logout } = useAuth();
   const { data: landingPageData } = useSelector((state) => state.landingPage);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
 
   const logoUrl = landingPageData?.banners?.[0]?.banner_logo || fallbackLogo;
+
+  // Handle scroll effect
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   // Close dropdown on outside click
   useEffect(() => {
@@ -33,8 +43,14 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-[#05070C]/80 backdrop-blur-md border-b border-[#1C2A40]/50">
-      <div className="max-w-[1440px] !mx-auto !px-6 md:!px-10 h-24 flex justify-between items-center">
+    <nav 
+      className={`sticky top-0 left-0 right-0 z-50 w-full transition-all duration-300 ease-in-out border-b border-[#1C2A40]/50 ${
+        isScrolled 
+          ? 'bg-[#05070C]/95 backdrop-blur-md shadow-lg py-0' 
+          : 'bg-[#05070C] py-2'
+      }`}
+    >
+      <div className="max-w-[1440px] !mx-auto !px-6 md:!px-10 h-24 flex justify-between items-center transition-all duration-300">
         {/* Logo */}
         <Link to="/" className="w-24 h-16 flex items-center">
           <img src={logoUrl} alt="EV Systems Logo" className="object-contain w-full h-full" />

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 
-export default function ProductHero({ product }) {
-  // Default to the first variation available in the API response
-  const [selectedVariation, setSelectedVariation] = useState(product?.product_variation?.[0]);
+export default function ProductHero({ product, selectedVariation, setSelectedVariation }) {
+  // State for active image in the gallery
+  const [activeImage, setActiveImage] = useState(product?.gallery_image?.[0]?.image || "https://placehold.co/600x560?text=Product+Image");
 
   if (!product) return null;
 
@@ -10,13 +10,31 @@ export default function ProductHero({ product }) {
     <section className="w-full bg-[#05070C] !px-6 md:!px-20 !py-12 md:!py-20 flex justify-center">
       <div className="w-full max-w-[1440px] flex flex-col lg:flex-row items-center lg:items-start gap-12 lg:gap-20">
         
-        {/* Product Image Gallery Placeholder */}
-        <div className="flex-1 w-full max-w-[600px]">
-          <img 
-            className="w-full h-auto lg:h-[560px] object-cover rounded-[20px]" 
-            src={product.gallery_image?.[0]?.image || "https://placehold.co/600x560?text=Product+Image"} 
-            alt={product.product_title} 
-          />
+        {/* Product Image Gallery */}
+        <div className="flex-1 w-full max-w-[600px] flex flex-col gap-4">
+          <div className="w-full h-auto lg:h-[560px] rounded-[20px] overflow-hidden bg-[#0A1119] border border-[#1C2A40]">
+            <img 
+              className="w-full h-full object-cover" 
+              src={activeImage} 
+              alt={product.product_title} 
+            />
+          </div>
+          {/* Thumbnails */}
+          {product.gallery_image && product.gallery_image.length > 1 && (
+            <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
+              {product.gallery_image.map((img) => (
+                <button
+                  key={img.id}
+                  onClick={() => setActiveImage(img.image)}
+                  className={`w-20 h-20 md:w-24 md:h-24 flex-shrink-0 rounded-xl overflow-hidden border-2 transition-all ${
+                    activeImage === img.image ? 'border-[#2BE3FF]' : 'border-transparent opacity-60 hover:opacity-100'
+                  }`}
+                >
+                  <img src={img.image} alt="thumbnail" className="w-full h-full object-cover bg-[#0A1119]" />
+                </button>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Product Details */}
@@ -42,12 +60,8 @@ export default function ProductHero({ product }) {
             
             {/* Variations Selector */}
             <div className="w-full md:w-72 flex flex-col sm:flex-row justify-start items-start gap-3 overflow-hidden">
-              {(product.product_variation?.length > 0 ? product.product_variation : [
-                { id: 1, length: "5", price: "449.00" },
-                { id: 2, length: "8", price: "549.00" }
-              ]).map((variation) => {
-                // If there's no selected variation, default to the first one in the list
-                const isSelected = selectedVariation ? selectedVariation.id === variation.id : variation.id === 1;
+              {(product.product_variation?.length > 0 ? product.product_variation : []).map((variation) => {
+                const isSelected = selectedVariation?.id === variation.id;
                 return (
                   <button
                     key={variation.id}
@@ -59,7 +73,7 @@ export default function ProductHero({ product }) {
                     }`}
                   >
                     <div className={`text-center justify-start text-lg font-bold font-['DM_Sans'] ${isSelected ? 'text-zinc-950' : 'text-[#F5F9FF]'}`}>
-                      {variation.length}m
+                      {Number(variation.length)}m
                     </div>
                     <div className={`text-center justify-start text-xs font-normal font-['DM_Sans'] ${isSelected ? 'text-neutral-900' : 'text-[#8EA0BD]'}`}>
                       ${variation.price} AUD

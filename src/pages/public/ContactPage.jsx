@@ -20,11 +20,11 @@ export default function ContactPage() {
       // Defaulting uncollected fields to gracefully handle the API contract.
       const payload = {
         name: data.name,
-        surname: "N/A", 
+        surname: data.surname, 
         email: data.email,
-        nation: "N/A",
-        activity: "N/A",
-        telephone: "N/A",
+        nation: data.nation,
+        activity: data.activity,
+        telephone: data.telephone,
         message: data.message,
       };
 
@@ -76,42 +76,104 @@ export default function ContactPage() {
           </div>
         </div>
 
-        {/* Right Column: Form Card (Matches image_60eda6.png) */}
-        <div className="w-full lg:w-[480px] !p-9 bg-[#0A0F19] rounded-[20px] outline outline-1 outline-offset-[-1px] outline-[#1C2A40] flex flex-col gap-6">
+        {/* Right Column: Form Card */}
+        <div className="w-full lg:w-[540px] !p-9 bg-[#0A0F19] rounded-[20px] outline outline-1 outline-offset-[-1px] outline-[#1C2A40] flex flex-col gap-6">
           <h2 className="text-[#F5F9FF] text-xl font-black font-['Inter']">
             Send Us a Message
           </h2>
           
           <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
-            <div className="flex flex-col gap-2">
-              <label htmlFor="name" className="text-[#F5F9FF] text-xs font-semibold font-['Inter']">
-                Name
-              </label>
-              <input
-                id="name"
-                type="text"
-                placeholder="Your full name"
-                className={`w-full !px-4 !py-3 bg-[#05070C] text-[#F5F9FF] placeholder-[#8EA0BD] text-sm font-normal font-['Inter'] rounded-[10px] outline outline-1 outline-offset-[-1px] transition-colors focus:outline-[#2BE3FF] ${errors.name ? 'outline-red-500' : 'outline-[#1C2A40]'}`}
-                {...register('name', { required: 'Name is required' })}
-              />
-              {errors.name && <span className="text-red-500 text-xs">{errors.name.message}</span>}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="flex flex-col gap-2">
+                <label htmlFor="name" className="text-[#F5F9FF] text-xs font-semibold font-['Inter']">
+                  Name
+                </label>
+                <input
+                  id="name"
+                  type="text"
+                  placeholder="John"
+                  className={`w-full !px-4 !py-3 bg-[#05070C] text-[#F5F9FF] placeholder-[#8EA0BD] text-sm font-normal font-['Inter'] rounded-[10px] outline outline-1 outline-offset-[-1px] transition-colors focus:outline-[#2BE3FF] ${errors.name ? 'outline-red-500' : 'outline-[#1C2A40]'}`}
+                  {...register('name', { required: 'Name is required' })}
+                />
+                {errors.name && <span className="text-red-500 text-xs">{errors.name.message}</span>}
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <label htmlFor="surname" className="text-[#F5F9FF] text-xs font-semibold font-['Inter']">
+                  Surname
+                </label>
+                <input
+                  id="surname"
+                  type="text"
+                  placeholder="Doe"
+                  className={`w-full !px-4 !py-3 bg-[#05070C] text-[#F5F9FF] placeholder-[#8EA0BD] text-sm font-normal font-['Inter'] rounded-[10px] outline outline-1 outline-offset-[-1px] transition-colors focus:outline-[#2BE3FF] ${errors.surname ? 'outline-red-500' : 'outline-[#1C2A40]'}`}
+                  {...register('surname', { required: 'Surname is required' })}
+                />
+                {errors.surname && <span className="text-red-500 text-xs">{errors.surname.message}</span>}
+              </div>
             </div>
 
-            <div className="flex flex-col gap-2">
-              <label htmlFor="email" className="text-[#F5F9FF] text-xs font-semibold font-['Inter']">
-                Email
-              </label>
-              <input
-                id="email"
-                type="email"
-                placeholder="you@example.com"
-                className={`w-full !px-4 !py-3 bg-[#05070C] text-[#F5F9FF] placeholder-[#8EA0BD] text-sm font-normal font-['Inter'] rounded-[10px] outline outline-1 outline-offset-[-1px] transition-colors focus:outline-[#2BE3FF] ${errors.email ? 'outline-red-500' : 'outline-[#1C2A40]'}`}
-                {...register('email', { 
-                  required: 'Email is required',
-                  pattern: { value: /^\S+@\S+$/i, message: 'Invalid email address' }
-                })}
-              />
-              {errors.email && <span className="text-red-500 text-xs">{errors.email.message}</span>}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="flex flex-col gap-2">
+                <label htmlFor="email" className="text-[#F5F9FF] text-xs font-semibold font-['Inter']">
+                  Email
+                </label>
+                <input
+                  id="email"
+                  type="email"
+                  placeholder="john@example.com"
+                  className={`w-full !px-4 !py-3 bg-[#05070C] text-[#F5F9FF] placeholder-[#8EA0BD] text-sm font-normal font-['Inter'] rounded-[10px] outline outline-1 outline-offset-[-1px] transition-colors focus:outline-[#2BE3FF] ${errors.email ? 'outline-red-500' : 'outline-[#1C2A40]'}`}
+                  {...register('email', { 
+                    required: 'Email is required',
+                    pattern: { value: /^\S+@\S+$/i, message: 'Invalid email address' }
+                  })}
+                />
+                {errors.email && <span className="text-red-500 text-xs">{errors.email.message}</span>}
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <label htmlFor="telephone" className="text-[#F5F9FF] text-xs font-semibold font-['Inter']">
+                  Telephone
+                </label>
+                <input
+                  id="telephone"
+                  type="tel"
+                  placeholder="+8801700000000"
+                  className={`w-full !px-4 !py-3 bg-[#05070C] text-[#F5F9FF] placeholder-[#8EA0BD] text-sm font-normal font-['Inter'] rounded-[10px] outline outline-1 outline-offset-[-1px] transition-colors focus:outline-[#2BE3FF] ${errors.telephone ? 'outline-red-500' : 'outline-[#1C2A40]'}`}
+                  {...register('telephone', { required: 'Telephone is required' })}
+                />
+                {errors.telephone && <span className="text-red-500 text-xs">{errors.telephone.message}</span>}
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="flex flex-col gap-2">
+                <label htmlFor="nation" className="text-[#F5F9FF] text-xs font-semibold font-['Inter']">
+                  Nation
+                </label>
+                <input
+                  id="nation"
+                  type="text"
+                  placeholder="e.g. Bangladesh"
+                  className={`w-full !px-4 !py-3 bg-[#05070C] text-[#F5F9FF] placeholder-[#8EA0BD] text-sm font-normal font-['Inter'] rounded-[10px] outline outline-1 outline-offset-[-1px] transition-colors focus:outline-[#2BE3FF] ${errors.nation ? 'outline-red-500' : 'outline-[#1C2A40]'}`}
+                  {...register('nation', { required: 'Nation is required' })}
+                />
+                {errors.nation && <span className="text-red-500 text-xs">{errors.nation.message}</span>}
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <label htmlFor="activity" className="text-[#F5F9FF] text-xs font-semibold font-['Inter']">
+                  Activity
+                </label>
+                <input
+                  id="activity"
+                  type="text"
+                  placeholder="e.g. Business"
+                  className={`w-full !px-4 !py-3 bg-[#05070C] text-[#F5F9FF] placeholder-[#8EA0BD] text-sm font-normal font-['Inter'] rounded-[10px] outline outline-1 outline-offset-[-1px] transition-colors focus:outline-[#2BE3FF] ${errors.activity ? 'outline-red-500' : 'outline-[#1C2A40]'}`}
+                  {...register('activity', { required: 'Activity is required' })}
+                />
+                {errors.activity && <span className="text-red-500 text-xs">{errors.activity.message}</span>}
+              </div>
             </div>
 
             <div className="flex flex-col gap-2">
@@ -120,7 +182,7 @@ export default function ContactPage() {
               </label>
               <textarea
                 id="message"
-                placeholder="How can we help?"
+                placeholder="Hello, I am interested in your products."
                 rows="4"
                 className={`w-full !px-4 !py-3 bg-[#05070C] text-[#F5F9FF] placeholder-[#8EA0BD] text-sm font-normal font-['Inter'] rounded-[10px] outline outline-1 outline-offset-[-1px] transition-colors focus:outline-[#2BE3FF] resize-none ${errors.message ? 'outline-red-500' : 'outline-[#1C2A40]'}`}
                 {...register('message', { required: 'Message is required' })}
