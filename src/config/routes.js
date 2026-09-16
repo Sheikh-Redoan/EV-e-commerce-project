@@ -19,6 +19,7 @@ export const ROUTES = {
   ORDER_DETAIL: '/dashboard/orders/:id',
   CHECKOUT: '/checkout',
   PAYMENT_SUCCESS: '/payment-success',
+  PAYMENT_CANCEL: '/payment-cancel',
   SETTINGS: '/dashboard/settings',
   
   // Error Routes

@@ -32,10 +32,28 @@ axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      // Token expired or invalid
       Cookie.remove('authToken');
       localStorage.removeItem('user');
-      window.location.href = '/login';
+
+      const currentPath = window.location.pathname;
+
+      // Only redirect to login if the user is on a protected route.
+      // Public routes (including product listings/details) stay as-is;
+      // the silent guest login in App.jsx will refresh the token on next load.
+      const isPublicRoute =
+        currentPath === '/' ||
+        currentPath === '/contact' ||
+        currentPath === '/manual-warranty' ||
+        currentPath === '/login' ||
+        currentPath === '/register' ||
+        currentPath === '/forgot-password' ||
+        currentPath === '/payment-success' ||
+        currentPath === '/payment-cancel' ||
+        currentPath.startsWith('/product'); // covers /product and /products/:id
+
+      if (!isPublicRoute) {
+        window.location.href = '/login';
+      }
     }
 
     if (error.response?.status === 500) {
@@ -45,5 +63,6 @@ axiosInstance.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
 
 export default axiosInstance;
