@@ -34,6 +34,9 @@ import ProfilePage from './pages/user/ProfilePage';
 import OrdersPage from './pages/user/OrdersPage';
 import CheckoutPage from './pages/user/CheckoutPage';
 
+// Axios instance used by all API slices
+import axiosInstance from './api/axiosConfig';
+
 const GUEST_EMAIL = import.meta.env.VITE_GUEST_EMAIL;
 const GUEST_PASSWORD = import.meta.env.VITE_GUEST_PASSWORD;
 
@@ -43,28 +46,38 @@ function App() {
 
   useEffect(() => {
     const initializeApp = async () => {
-      let token = Cookie.get('authToken');
+      const token = Cookie.get('authToken');
 
-      // If no token exists, silently log in as the guest account
-      if (!token && GUEST_EMAIL && GUEST_PASSWORD) {
+      // Real user is already logged in — just fetch data
+      if (token) {
+        dispatch(fetchProducts());
+        dispatch(fetchLandingPageData());
+        setIsInitializing(false);
+        return;
+      }
+
+      // No real token — silently fetch a guest token and keep it ONLY in
+      // memory (Axios headers). This prevents the UI from thinking a real
+      // user is logged in while still satisfying the backend's Bearer requirement.
+      if (GUEST_EMAIL && GUEST_PASSWORD) {
         try {
           const response = await axios.post(
             `${import.meta.env.VITE_API_BASE_URL}/login`,
             { email: GUEST_EMAIL, password: GUEST_PASSWORD }
           );
-          token = response.data.data.token;
-          Cookie.set('authToken', token);
+          const guestToken = response.data.data.token;
+
+          // Attach to both the vanilla axios instance and our custom one.
+          // We deliberately skip Cookie.set() so the auth UI stays logged-out.
+          axios.defaults.headers.common['Authorization'] = `Bearer ${guestToken}`;
+          axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${guestToken}`;
         } catch (error) {
           console.error('Silent guest login failed:', error);
         }
       }
 
-      // Fetch the protected public data
-      if (token) {
-        dispatch(fetchProducts());
-        dispatch(fetchLandingPageData());
-      }
-
+      dispatch(fetchProducts());
+      dispatch(fetchLandingPageData());
       setIsInitializing(false);
     };
 
@@ -98,7 +111,7 @@ function App() {
           <Route path={ROUTES.PAYMENT_SUCCESS} element={<PaymentSuccessPage />} />
           <Route path={ROUTES.PAYMENT_CANCEL} element={<PaymentCancelPage />} />
 
-          {/* Redirect /dashboard to profile */}
+          {/* Redirect legacy /dashboard links to profile */}
           <Route path="/dashboard" element={<Navigate to={ROUTES.PROFILE} replace />} />
 
           {/* Protected Routes */}
