@@ -9,7 +9,6 @@ import { ROUTES } from '../../config/routes';
 const TABS = {
   PERSONAL: 'personal',
   ADDRESS: 'address',
-  LOCATION: 'location',
   SECURITY: 'security',
   DANGER: 'danger'
 };
@@ -43,9 +42,8 @@ export default function ProfilePage() {
   const tabs = [
     { id: TABS.PERSONAL, label: 'Personal Information' },
     { id: TABS.ADDRESS, label: 'Address Book' },
-    { id: TABS.LOCATION, label: 'Location Settings' },
     { id: TABS.SECURITY, label: 'Security' },
-    { id: TABS.DANGER, label: 'Danger Zone', isDanger: true }
+    { id: TABS.DANGER, label: 'Delete Account', isDanger: true }
   ];
 
   if (loading) {
@@ -90,7 +88,6 @@ export default function ProfilePage() {
         <div className="flex-1 w-full bg-[#0A0F19] rounded-[24px] outline outline-1 outline-offset-[-1px] outline-[#1C2A40] p-6 md:p-10">
           {activeTab === TABS.PERSONAL && <PersonalInfo profile={profile} onUpdate={fetchProfile} />}
           {activeTab === TABS.ADDRESS && <AddressInfo profile={profile} onUpdate={fetchProfile} />}
-          {activeTab === TABS.LOCATION && <LocationInfo profile={profile} onUpdate={fetchProfile} />}
           {activeTab === TABS.SECURITY && <SecurityInfo />}
           {activeTab === TABS.DANGER && <DangerZone profile={profile} logout={logout} navigate={navigate} />}
         </div>
@@ -236,64 +233,6 @@ function AddressInfo({ profile, onUpdate }) {
   );
 }
 
-function LocationInfo({ profile, onUpdate }) {
-  const { register, handleSubmit, formState: { errors, isSubmitting }, setError } = useForm({
-    defaultValues: {
-      latitude: '',
-      longitude: ''
-    }
-  });
-
-  const onSubmit = async (data) => {
-    try {
-      const res = await profileAPI.updateLocation(data.latitude, data.longitude);
-      toast.success(res.data?.message || "Location updated successfully.");
-      onUpdate();
-    } catch (error) {
-      const errRes = error.response?.data;
-      // Handle the specific API validation errors mapping
-      if (error.response?.status === 422 && errRes?.errors) {
-        if (errRes.errors.user_latitude) {
-          setError('latitude', { message: errRes.errors.user_latitude[0] });
-        }
-        if (errRes.errors.user_longitude) {
-          setError('longitude', { message: errRes.errors.user_longitude[0] });
-        }
-      } else {
-        toast.error(errRes?.message || "Failed to update location.");
-      }
-    }
-  };
-
-  return (
-    <div className="flex flex-col gap-8">
-      <div className="pb-6 border-b border-[#1C2A40]">
-        <h3 className="text-[#F5F9FF] text-xl font-bold font-['Inter']">Location Coordinates</h3>
-        <p className="text-[#8EA0BD] text-xs font-['Inter'] mt-1">Set specific map coordinates for installation services.</p>
-      </div>
-
-      <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-1 md:grid-cols-2 gap-5">
-        <div className="flex flex-col gap-2">
-          <label className="text-[#F5F9FF] text-xs font-semibold font-['Inter']">Latitude</label>
-          <input type="text" {...register('latitude', { required: 'Latitude is required' })} placeholder="e.g. -37.8136" className={`w-full px-4 py-3 bg-[#05070C] text-[#F5F9FF] placeholder-[#8EA0BD] text-sm rounded-[10px] outline outline-1 outline-offset-[-1px] focus:outline-[#2BE3FF] transition-colors ${errors.latitude ? 'outline-red-500' : 'outline-[#1C2A40]'}`} />
-          {errors.latitude && <span className="text-red-400 text-xs">{errors.latitude.message}</span>}
-        </div>
-        <div className="flex flex-col gap-2">
-          <label className="text-[#F5F9FF] text-xs font-semibold font-['Inter']">Longitude</label>
-          <input type="text" {...register('longitude', { required: 'Longitude is required' })} placeholder="e.g. 144.9631" className={`w-full px-4 py-3 bg-[#05070C] text-[#F5F9FF] placeholder-[#8EA0BD] text-sm rounded-[10px] outline outline-1 outline-offset-[-1px] focus:outline-[#2BE3FF] transition-colors ${errors.longitude ? 'outline-red-500' : 'outline-[#1C2A40]'}`} />
-          {errors.longitude && <span className="text-red-400 text-xs">{errors.longitude.message}</span>}
-        </div>
-        
-        <div className="md:col-span-2 flex justify-end mt-4">
-          <button type="submit" disabled={isSubmitting} className="px-8 py-3 bg-[#2BE3FF] hover:bg-[#2BE3FF]/80 text-[#05070C] text-sm font-semibold font-['Inter'] rounded-[100px] transition-colors disabled:opacity-50">
-            {isSubmitting ? 'Saving...' : 'Update Coordinates'}
-          </button>
-        </div>
-      </form>
-    </div>
-  );
-}
-
 function SecurityInfo() {
   const { register, handleSubmit, formState: { errors, isSubmitting }, watch, reset } = useForm();
   const newPassword = watch('new_password');
@@ -363,9 +302,9 @@ function DangerZone({ profile, logout, navigate }) {
   return (
     <div className="flex flex-col gap-8">
       <div className="pb-6 border-b border-[#1C2A40]">
-        <h3 className="text-red-500 text-xl font-bold font-['Inter']">Danger Zone</h3>
+        <h3 className="text-red-500 text-xl font-bold font-['Inter']">Delete Account</h3>
         <p className="text-[#8EA0BD] text-xs font-['Inter'] mt-1">
-          Permanently delete your account. This action cannot be undone. All warranties, orders, and data will be lost.
+          Permanently delete your account. This action cannot be undone.
         </p>
       </div>
 

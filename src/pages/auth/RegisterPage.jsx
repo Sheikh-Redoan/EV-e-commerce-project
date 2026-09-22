@@ -75,7 +75,11 @@ export default function RegisterPage() {
               className={`w-full !px-4 !py-3 bg-[#05070C] text-[#F5F9FF] placeholder-[#8EA0BD] text-sm rounded-[10px] outline outline-1 outline-offset-[-1px] transition-colors focus:outline-[#2BE3FF] ${
                 errors.name ? 'outline-red-500' : 'outline-[#1C2A40]'
               }`}
-              {...register('name', { required: 'Name is required' })}
+              {...register('name', { 
+                required: 'Name is required',
+                minLength: { value: 2, message: 'Name must be at least 2 characters' },
+                pattern: { value: /^[A-Za-z\s]+$/, message: 'Name can only contain letters' }
+              })}
             />
             {errors.name && (
               <span className="text-red-400 text-xs">{errors.name.message}</span>
@@ -94,7 +98,7 @@ export default function RegisterPage() {
               }`}
               {...register('email', {
                 required: 'Email is required',
-                pattern: { value: /^\S+@\S+$/i, message: 'Invalid email format' }
+                pattern: { value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, message: 'Invalid email format' }
               })}
             />
             {errors.email && (
@@ -114,7 +118,8 @@ export default function RegisterPage() {
               }`}
               {...register('password', {
                 required: 'Password is required',
-                minLength: { value: 8, message: 'Password must be at least 8 characters' }
+                minLength: { value: 8, message: 'Password must be at least 8 characters' },
+                pattern: { value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d\W]{8,}$/, message: 'Must contain uppercase, lowercase, and number' }
               })}
             />
             {errors.password && (

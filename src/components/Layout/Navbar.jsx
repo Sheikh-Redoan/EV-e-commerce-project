@@ -105,14 +105,6 @@ export default function Navbar() {
                       {user?.email}
                     </div>
                   </div>
-
-                  <Link
-                    to={ROUTES.DASHBOARD}
-                    onClick={() => setDropdownOpen(false)}
-                    className="!px-4 !py-2.5 text-xs text-[#8EA0BD] hover:text-[#2BE3FF] hover:bg-[#101A2C] transition-colors font-['Inter']"
-                  >
-                    Dashboard
-                  </Link>
                   <Link
                     to={ROUTES.ORDERS}
                     onClick={() => setDropdownOpen(false)}

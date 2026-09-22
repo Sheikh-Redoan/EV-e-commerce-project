@@ -93,7 +93,11 @@ export default function ContactPage() {
                   type="text"
                   placeholder="John"
                   className={`w-full !px-4 !py-3 bg-[#05070C] text-[#F5F9FF] placeholder-[#8EA0BD] text-sm font-normal font-['Inter'] rounded-[10px] outline outline-1 outline-offset-[-1px] transition-colors focus:outline-[#2BE3FF] ${errors.name ? 'outline-red-500' : 'outline-[#1C2A40]'}`}
-                  {...register('name', { required: 'Name is required' })}
+                  {...register('name', { 
+                    required: 'Name is required',
+                    minLength: { value: 2, message: 'Name must be at least 2 characters' },
+                    pattern: { value: /^[A-Za-z\s]+$/, message: 'Name can only contain letters' }
+                  })}
                 />
                 {errors.name && <span className="text-red-500 text-xs">{errors.name.message}</span>}
               </div>
@@ -107,7 +111,11 @@ export default function ContactPage() {
                   type="text"
                   placeholder="Doe"
                   className={`w-full !px-4 !py-3 bg-[#05070C] text-[#F5F9FF] placeholder-[#8EA0BD] text-sm font-normal font-['Inter'] rounded-[10px] outline outline-1 outline-offset-[-1px] transition-colors focus:outline-[#2BE3FF] ${errors.surname ? 'outline-red-500' : 'outline-[#1C2A40]'}`}
-                  {...register('surname', { required: 'Surname is required' })}
+                  {...register('surname', { 
+                    required: 'Surname is required',
+                    minLength: { value: 2, message: 'Surname must be at least 2 characters' },
+                    pattern: { value: /^[A-Za-z\s]+$/, message: 'Surname can only contain letters' }
+                  })}
                 />
                 {errors.surname && <span className="text-red-500 text-xs">{errors.surname.message}</span>}
               </div>
@@ -125,7 +133,7 @@ export default function ContactPage() {
                   className={`w-full !px-4 !py-3 bg-[#05070C] text-[#F5F9FF] placeholder-[#8EA0BD] text-sm font-normal font-['Inter'] rounded-[10px] outline outline-1 outline-offset-[-1px] transition-colors focus:outline-[#2BE3FF] ${errors.email ? 'outline-red-500' : 'outline-[#1C2A40]'}`}
                   {...register('email', { 
                     required: 'Email is required',
-                    pattern: { value: /^\S+@\S+$/i, message: 'Invalid email address' }
+                    pattern: { value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, message: 'Invalid email address' }
                   })}
                 />
                 {errors.email && <span className="text-red-500 text-xs">{errors.email.message}</span>}
@@ -140,7 +148,10 @@ export default function ContactPage() {
                   type="tel"
                   placeholder="+8801700000000"
                   className={`w-full !px-4 !py-3 bg-[#05070C] text-[#F5F9FF] placeholder-[#8EA0BD] text-sm font-normal font-['Inter'] rounded-[10px] outline outline-1 outline-offset-[-1px] transition-colors focus:outline-[#2BE3FF] ${errors.telephone ? 'outline-red-500' : 'outline-[#1C2A40]'}`}
-                  {...register('telephone', { required: 'Telephone is required' })}
+                  {...register('telephone', { 
+                    required: 'Telephone is required',
+                    pattern: { value: /^\+?[0-9\s\-]{7,15}$/, message: 'Invalid phone number' }
+                  })}
                 />
                 {errors.telephone && <span className="text-red-500 text-xs">{errors.telephone.message}</span>}
               </div>
@@ -156,7 +167,11 @@ export default function ContactPage() {
                   type="text"
                   placeholder="e.g. Bangladesh"
                   className={`w-full !px-4 !py-3 bg-[#05070C] text-[#F5F9FF] placeholder-[#8EA0BD] text-sm font-normal font-['Inter'] rounded-[10px] outline outline-1 outline-offset-[-1px] transition-colors focus:outline-[#2BE3FF] ${errors.nation ? 'outline-red-500' : 'outline-[#1C2A40]'}`}
-                  {...register('nation', { required: 'Nation is required' })}
+                  {...register('nation', { 
+                    required: 'Nation is required',
+                    minLength: { value: 2, message: 'Nation must be at least 2 characters' },
+                    pattern: { value: /^[A-Za-z\s]+$/, message: 'Nation can only contain letters' }
+                  })}
                 />
                 {errors.nation && <span className="text-red-500 text-xs">{errors.nation.message}</span>}
               </div>
