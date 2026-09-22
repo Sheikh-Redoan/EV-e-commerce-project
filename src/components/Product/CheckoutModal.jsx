@@ -18,7 +18,7 @@ export default function CheckoutModal({ isOpen, onClose, product, selectedVariat
     setIsProcessing(true);
     try {
       const payload = {
-        product_id: product.product_id,
+        product_id: product.id,
         product_variation_id: selectedVariation.id,
         quantity: 1, // Defaulting to 1 for direct "Buy Now"
         sub_total: parseFloat(selectedVariation.price),

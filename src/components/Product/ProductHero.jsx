@@ -54,7 +54,7 @@ export default function ProductHero({
           </div>
 
           {/* Product Details */}
-          <div className="flex-1 flex flex-col items-start gap-5 w-full overflow-hidden">
+          <div className="flex-1 flex flex-col items-start gap-5 w-full ">
             <div className="justify-start text-[#2BE3FF] text-xs font-semibold font-['DM_Sans'] tracking-wider uppercase">
               Type 2 EV Charging Cable
             </div>
@@ -65,19 +65,20 @@ export default function ProductHero({
               {product.product_description}
             </div>
             <div className="justify-start text-[#F5F9FF] text-3xl font-black font-['DM_Sans']">
-              {selectedVariation?.price == "0.00" || selectedVariation?.price == null
+              {selectedVariation?.price == "0.00" ||
+              selectedVariation?.price == null
                 ? `Contact for price`
                 : `$${selectedVariation?.price} AUD`}
             </div>
 
             {/* Checkout Panel */}
-            <div className="w-full !p-6 md:!p-7 bg-[#0A1119] rounded-2xl outline outline-1 outline-offset-[-1px] outline-[#1C2A40] flex flex-col justify-start items-start gap-4 !mt-2">
-              <div className="justify-start text-[#F5F9FF] text-xs font-semibold font-['DM_Sans']">
+            <div className="w-full !p-6 md:!p-7 bg-[#0A1119] rounded-2xl outline outline-1 outline-offset-[-1px] outline-[#1C2A40] flex flex-col gap-4 !mt-2 box-border">
+              <div className="text-[#F5F9FF] text-xs font-semibold font-['DM_Sans']">
                 Select cable length
               </div>
 
               {/* Variations Selector */}
-              <div className="w-full md:w-72 flex flex-col sm:flex-row justify-start items-start gap-3 overflow-hidden">
+              <div className="w-full flex flex-col sm:flex-row gap-3">
                 {(product.product_variation?.length > 0
                   ? product.product_variation
                   : []
@@ -87,7 +88,7 @@ export default function ProductHero({
                     <button
                       key={variation.id}
                       onClick={() => setSelectedVariation(variation)}
-                      className={`flex-1 w-full !px-4 !py-2.5 rounded-xl flex flex-col justify-start items-center gap-0.5 overflow-hidden transition-all duration-300 ${
+                      className={`flex-1 w-full !px-4 !py-3 rounded-xl flex flex-col justify-center items-center gap-1 transition-all duration-300 ${
                         isSelected
                           ? "bg-[#2BE3FF] outline-none"
                           : "bg-[#05070C] outline outline-1 outline-offset-[-1px] outline-[#1C2A40] hover:outline-[#8EA0BD]"
@@ -113,16 +114,19 @@ export default function ProductHero({
               </div>
 
               <button
-                onClick={() => selectedVariation?.price == '0.00' || selectedVariation?.price == null ? navigate("/contact") : setIsCheckoutOpen(true)}
+                onClick={() =>
+                  selectedVariation?.price == "0.00" ||
+                  selectedVariation?.price == null
+                    ? navigate("/contact")
+                    : setIsCheckoutOpen(true)
+                }
                 className="w-full !py-4 bg-[#FFC628] hover:bg-[#e5b224] transition-colors rounded-[100px] flex justify-center items-center overflow-hidden shadow-lg shadow-[#FFC628]/10"
               >
                 <div className="justify-start text-[#191405] text-base font-bold font-['DM_Sans']">
-                  {
-                    selectedVariation?.price == '0.00' || selectedVariation?.price == null
-                      ? `Contact for price`
-                      : `PayPal Buy Now $${selectedVariation?.price} AUD`
-                  }
-                  
+                  {selectedVariation?.price == "0.00" ||
+                  selectedVariation?.price == null
+                    ? `Contact for price`
+                    : `PayPal Buy Now $${selectedVariation?.price} AUD`}
                 </div>
               </button>
 
@@ -135,7 +139,7 @@ export default function ProductHero({
       </section>
 
       {/* Render Modal */}
-      
+
       <CheckoutModal
         isOpen={isCheckoutOpen}
         onClose={() => setIsCheckoutOpen(false)}
