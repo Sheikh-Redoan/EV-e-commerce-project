@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Package, Eye, X, Calendar, CreditCard, MapPin, CheckCircle, Clock } from 'lucide-react';
+import { Package, Eye, X, Calendar, CreditCard, MapPin, CheckCircle, Clock, Download, FileText } from 'lucide-react';
 import axiosInstance from '../../api/axiosConfig';
 import { toast } from 'react-toastify';
 
@@ -47,6 +47,26 @@ export default function OrdersPage() {
       setIsModalOpen(false);
     } finally {
       setDetailsLoading(false);
+    }
+  };
+
+  const downloadInvoice = async (orderId, invoiceNo) => {
+    try {
+      const response = await axiosInstance.get(`/my-orders/${orderId}/invoice`, {
+        responseType: 'blob'
+      });
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      const fileName = invoiceNo ? `${invoiceNo}.html` : `invoice-${orderId}.html`;
+      link.setAttribute('download', fileName);
+      document.body.appendChild(link);
+      link.click();
+      link.parentNode.removeChild(link);
+      toast.success('Invoice downloaded successfully.');
+    } catch (error) {
+      console.error('Failed to download invoice:', error);
+      toast.error('Failed to download invoice.');
     }
   };
 
@@ -125,13 +145,22 @@ export default function OrdersPage() {
                       <td className="p-4 font-bold">${parseFloat(order.grand_total).toFixed(2)}</td>
                       <td className="p-4">{getStatusBadge(order.order_status)}</td>
                       <td className="p-4 text-right">
-                        <button
-                          onClick={() => fetchOrderDetails(order.id)}
-                          className="p-2 bg-[#2BE3FF]/10 text-[#2BE3FF] hover:bg-[#2BE3FF] hover:text-[#05070C] rounded-lg transition-all"
-                          title="View Details"
-                        >
-                          <Eye size={18} />
-                        </button>
+                        <div className="flex justify-end gap-2">
+                          <button
+                            onClick={() => downloadInvoice(order.id, order.invoice_no)}
+                            className="p-2 bg-[#2BE3FF]/10 text-[#2BE3FF] hover:bg-[#2BE3FF] hover:text-[#05070C] rounded-lg transition-all"
+                            title="Download Invoice"
+                          >
+                            <Download size={18} />
+                          </button>
+                          <button
+                            onClick={() => fetchOrderDetails(order.id)}
+                            className="p-2 bg-[#2BE3FF]/10 text-[#2BE3FF] hover:bg-[#2BE3FF] hover:text-[#05070C] rounded-lg transition-all"
+                            title="View Details"
+                          >
+                            <Eye size={18} />
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   ))}
@@ -147,9 +176,19 @@ export default function OrdersPage() {
             <div className="bg-[#0A0F19] w-full max-w-3xl rounded-2xl border border-white/10 shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
               <div className="flex justify-between items-center p-6 border-b border-white/10 bg-white/5 shrink-0">
                 <h2 className="text-xl font-bold font-['Familjen_Grotesk']">Order Details</h2>
-                <button onClick={closeModal} className="text-gray-400 hover:text-white transition-colors">
-                  <X size={24} />
-                </button>
+                <div className="flex items-center gap-4">
+                  {selectedOrder && (
+                    <button 
+                      onClick={() => downloadInvoice(selectedOrder.id, selectedOrder.invoice_no)}
+                      className="flex items-center gap-2 text-sm font-semibold bg-[#2BE3FF]/10 text-[#2BE3FF] hover:bg-[#2BE3FF] hover:text-[#05070C] px-3 py-1.5 rounded-lg transition-all"
+                    >
+                      <Download size={16} /> Invoice
+                    </button>
+                  )}
+                  <button onClick={closeModal} className="text-gray-400 hover:text-white transition-colors">
+                    <X size={24} />
+                  </button>
+                </div>
               </div>
 
               <div className="p-6 overflow-y-auto flex-1">
@@ -216,6 +255,37 @@ export default function OrdersPage() {
                               <p className="font-medium text-sm text-white">{spec.specification}</p>
                             </div>
                           ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Product Documents */}
+                    {(selectedOrder.product?.manual_pdf || selectedOrder.product?.warranty_pdf) && (
+                      <div>
+                        <h3 className="text-lg font-bold mb-4 border-b border-white/10 pb-2 flex items-center gap-2">
+                          <FileText size={18} className="text-[#2BE3FF]" /> Product Documents
+                        </h3>
+                        <div className="flex flex-wrap gap-4">
+                          {selectedOrder.product?.manual_pdf && (
+                            <a 
+                              href={`${API_BASE_URL}/${selectedOrder.product.manual_pdf}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="flex items-center gap-2 bg-[#2BE3FF]/10 text-[#2BE3FF] hover:bg-[#2BE3FF] hover:text-[#05070C] px-4 py-2 rounded-lg transition-all text-sm font-semibold"
+                            >
+                              <Download size={16} /> User Manual
+                            </a>
+                          )}
+                          {selectedOrder.product?.warranty_pdf && (
+                            <a 
+                              href={`${API_BASE_URL}/${selectedOrder.product.warranty_pdf}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="flex items-center gap-2 bg-[#2BE3FF]/10 text-[#2BE3FF] hover:bg-[#2BE3FF] hover:text-[#05070C] px-4 py-2 rounded-lg transition-all text-sm font-semibold"
+                            >
+                              <Download size={16} /> Warranty Policy
+                            </a>
+                          )}
                         </div>
                       </div>
                     )}
