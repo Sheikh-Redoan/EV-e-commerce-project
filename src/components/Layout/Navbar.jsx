@@ -1,13 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { useAuth } from '../../hooks/useAuth';
 import { ROUTES } from '../../config/routes';
 import fallbackLogo from '/logo.png';
-import { User } from 'lucide-react';
 
 export default function Navbar() {
-  const { user, isAuthenticated, logout } = useAuth();
   const { data: landingPageData } = useSelector((state) => state.landingPage);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -36,11 +33,7 @@ export default function Navbar() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const handleLogout = async () => {
-    setDropdownOpen(false);
-    await logout();
-    navigate(ROUTES.HOME);
-  };
+
 
   return (
     <nav 
@@ -79,74 +72,6 @@ export default function Navbar() {
             </Link>
           </div>
 
-          {/* Auth State Controls */}
-          {isAuthenticated ? (
-            <div className="relative" ref={dropdownRef}>
-              <button
-                onClick={() => setDropdownOpen(!dropdownOpen)}
-                className="flex items-center gap-3 p-1.5 rounded-full hover:bg-[#101A2C] transition-colors outline-none focus:ring-1 focus:ring-[#2BE3FF]"
-              >
-                <div className="w-9 h-9 rounded-full bg-[#1C2A40] border border-[#2BE3FF] flex items-center justify-center text-[#2BE3FF] text-xs font-bold font-['Inter']">
-                  <User size={20} />
-                </div>
-                <span className="hidden sm:inline text-xs font-medium text-[#F5F9FF] font-['Inter'] max-w-[120px] truncate">
-                  {user?.name || 'My Account'}
-                </span>
-                <span className="text-[#8EA0BD] text-xs">▼</span>
-              </button>
-
-              {dropdownOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-[#0A0F19] rounded-xl outline outline-1 outline-[#1C2A40] shadow-2xl py-2 flex flex-col z-50">
-                  <div className="!px-4 !py-2 border-b border-[#1C2A40]">
-                    <div className="text-xs font-bold text-[#F5F9FF] truncate font-['Inter']">
-                      {user?.name}
-                    </div>
-                    <div className="text-[11px] text-[#8EA0BD] truncate font-['Inter']">
-                      {user?.email}
-                    </div>
-                  </div>
-                  <Link
-                    to={ROUTES.ORDERS}
-                    onClick={() => setDropdownOpen(false)}
-                    className="!px-4 !py-2.5 text-xs text-[#8EA0BD] hover:text-[#2BE3FF] hover:bg-[#101A2C] transition-colors font-['Inter']"
-                  >
-                    My Orders
-                  </Link>
-                  <Link
-                    to={ROUTES.PROFILE}
-                    onClick={() => setDropdownOpen(false)}
-                    className="!px-4 !py-2.5 text-xs text-[#8EA0BD] hover:text-[#2BE3FF] hover:bg-[#101A2C] transition-colors font-['Inter']"
-                  >
-                    Profile Settings
-                  </Link>
-
-                  <div className="border-t border-[#1C2A40] my-1" />
-
-                  <button
-                    onClick={handleLogout}
-                    className="text-left w-full !px-4 !py-2.5 text-xs text-red-400 hover:bg-[#101A2C] transition-colors font-['Inter']"
-                  >
-                    Logout
-                  </button>
-                </div>
-              )}
-            </div>
-          ) : (
-            <div className="flex items-center gap-3">
-              <Link
-                to={ROUTES.LOGIN}
-                className="!px-4 !py-2 text-xs font-semibold text-[#F5F9FF] hover:text-[#2BE3FF] transition-colors font-['Inter']"
-              >
-                Sign In
-              </Link>
-              <Link
-                to={ROUTES.REGISTER}
-                className="!px-4 !py-2 rounded-full border border-[#2BE3FF] text-[#2BE3FF] text-xs font-semibold font-['Inter'] hover:bg-[#2BE3FF]/10 transition-colors"
-              >
-                Register
-              </Link>
-            </div>
-          )}
         </div>
       </div>
     </nav>

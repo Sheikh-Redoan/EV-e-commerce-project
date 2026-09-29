@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import CheckoutModal from "./CheckoutModal"; // Import the new modal
+import { paymentAPI } from "../../api/paymentAPI";
+import { toast } from "react-toastify";
 
 export default function ProductHero({
   product,
@@ -11,10 +12,53 @@ export default function ProductHero({
     product?.gallery_image?.[0]?.image ||
       "https://placehold.co/600x560?text=Product+Image",
   );
-  const [isCheckoutOpen, setIsCheckoutOpen] = useState(false); // Modal state
+  const [isProcessing, setIsProcessing] = useState(false);
   const navigate = useNavigate();
 
   if (!product) return null;
+
+  const handleBuyNow = async () => {
+    if (
+      selectedVariation?.price === "0.00" ||
+      selectedVariation?.price == null
+    ) {
+      navigate("/contact");
+      return;
+    }
+    
+    setIsProcessing(true);
+    try {
+      const payload = {
+        product_id: product.product_id || product.id,
+        product_variation_id: selectedVariation.id,
+        quantity: 1, 
+        sub_total: parseFloat(selectedVariation.price),
+        tax: 0.00,
+        discount: 0.00,
+        first_name: "Guest",
+        last_name: "User",
+        email: "guest@example.com",
+        country_region: "Australia",
+        address_line_one: "N/A",
+        sub_burb: "N/A",
+        state: "N/A",
+        post_code: "0000",
+        notes: "Direct purchase",
+      };
+
+      const response = await paymentAPI.createPayPalPayment(payload);
+      
+      if (response.data?.status === 'success' && response.data?.paypal_url) {
+        window.location.href = response.data.paypal_url;
+      } else {
+        toast.error("Failed to initiate PayPal checkout.");
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Payment initialization failed.");
+    } finally {
+      setIsProcessing(false);
+    }
+  };
 
   return (
     <>
@@ -114,17 +158,13 @@ export default function ProductHero({
               </div>
 
               <button
-                onClick={() =>
-                  selectedVariation?.price == "0.00" ||
-                  selectedVariation?.price == null
-                    ? navigate("/contact")
-                    : setIsCheckoutOpen(true)
-                }
-                className="w-full !py-4 bg-[#FFC628] hover:bg-[#e5b224] transition-colors rounded-[100px] flex justify-center items-center overflow-hidden shadow-lg shadow-[#FFC628]/10"
+                onClick={handleBuyNow}
+                disabled={isProcessing}
+                className="w-full !py-4 bg-[#FFC628] hover:bg-[#e5b224] disabled:opacity-50 transition-colors rounded-[100px] flex justify-center items-center overflow-hidden shadow-lg shadow-[#FFC628]/10"
               >
                 <div className="justify-start text-[#191405] text-base font-bold font-['DM_Sans']">
-                  {selectedVariation?.price == "0.00" ||
-                  selectedVariation?.price == null
+                  {isProcessing ? "Connecting to PayPal..." :
+                  selectedVariation?.price == "0.00" || selectedVariation?.price == null
                     ? `Contact for price`
                     : `PayPal Buy Now $${selectedVariation?.price} AUD`}
                 </div>
@@ -138,14 +178,6 @@ export default function ProductHero({
         </div>
       </section>
 
-      {/* Render Modal */}
-
-      <CheckoutModal
-        isOpen={isCheckoutOpen}
-        onClose={() => setIsCheckoutOpen(false)}
-        product={product}
-        selectedVariation={selectedVariation}
-      />
     </>
   );
 }

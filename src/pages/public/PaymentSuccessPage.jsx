@@ -33,12 +33,6 @@ export default function PaymentSuccessPage() {
 
         <div className="flex flex-col sm:flex-row gap-4 w-full mt-4">
           <Link 
-            to={ROUTES.ORDERS || '/dashboard/orders'} 
-            className="flex-1 py-3 bg-[#2BE3FF] hover:bg-[#2BE3FF]/80 text-[#05070C] text-sm font-bold font-['Inter'] rounded-[100px] transition-colors"
-          >
-            View Orders
-          </Link>
-          <Link 
             to={ROUTES.HOME} 
             className="flex-1 py-3 bg-transparent hover:bg-[#101A2C] text-[#F5F9FF] outline outline-1 outline-[#1C2A40] text-sm font-bold font-['Inter'] rounded-[100px] transition-colors"
           >

@@ -6,21 +6,8 @@ export const ROUTES = {
   CONTACT: '/contact',
   MANUAL_WARRANTY: '/manual-warranty',
   
-  // Auth Routes
-  LOGIN: '/login',
-  REGISTER: '/register',
-  FORGOT_PASSWORD: '/forgot-password',
-  RESET_PASSWORD: '/reset-password/:token',
-  
-  // Protected Routes
-  DASHBOARD: '/dashboard',
-  PROFILE: '/dashboard/profile',
-  ORDERS: '/dashboard/orders',
-  ORDER_DETAIL: '/dashboard/orders/:id',
-  CHECKOUT: '/checkout',
   PAYMENT_SUCCESS: '/payment-success',
   PAYMENT_CANCEL: '/payment-cancel',
-  SETTINGS: '/dashboard/settings',
   
   // Error Routes
   NOT_FOUND: '/404',

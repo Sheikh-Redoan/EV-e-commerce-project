@@ -12,7 +12,6 @@ import { ToastContainer } from 'react-toastify';
 
 // Layout
 import MainLayout from './components/Layout/MainLayout';
-import ProtectedRoute from './components/Common/ProtectedRoute';
 
 // Pages - Public
 import LandingPage from './pages/public/LandingPage';
@@ -23,16 +22,6 @@ import ManualWarrantyPage from './pages/public/ManualWarrantyPage';
 import NotFoundPage from './pages/public/NotFoundPage';
 import PaymentSuccessPage from './pages/public/PaymentSuccessPage';
 import PaymentCancelPage from './pages/public/PaymentCancelPage';
-
-// Pages - Auth
-import LoginPage from './pages/auth/LoginPage';
-import RegisterPage from './pages/auth/RegisterPage';
-import ForgotPasswordPage from './pages/auth/ForgotPasswordPage';
-
-// Pages - Protected
-import ProfilePage from './pages/user/ProfilePage';
-import OrdersPage from './pages/user/OrdersPage';
-import CheckoutPage from './pages/user/CheckoutPage';
 
 // Axios instance used by all API slices
 import axiosInstance from './api/axiosConfig';
@@ -104,41 +93,8 @@ function App() {
           <Route path={ROUTES.CONTACT} element={<ContactPage />} />
           <Route path={ROUTES.MANUAL_WARRANTY} element={<ManualWarrantyPage />} />
 
-          {/* Auth Routes */}
-          <Route path={ROUTES.LOGIN} element={<LoginPage />} />
-          <Route path={ROUTES.REGISTER} element={<RegisterPage />} />
-          <Route path={ROUTES.FORGOT_PASSWORD} element={<ForgotPasswordPage />} />
           <Route path={ROUTES.PAYMENT_SUCCESS} element={<PaymentSuccessPage />} />
           <Route path={ROUTES.PAYMENT_CANCEL} element={<PaymentCancelPage />} />
-
-          {/* Redirect legacy /dashboard links to profile */}
-          <Route path="/dashboard" element={<Navigate to={ROUTES.PROFILE} replace />} />
-
-          {/* Protected Routes */}
-          <Route
-            path={ROUTES.PROFILE}
-            element={
-              <ProtectedRoute>
-                <ProfilePage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path={ROUTES.ORDERS}
-            element={
-              <ProtectedRoute>
-                <OrdersPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path={ROUTES.CHECKOUT}
-            element={
-              <ProtectedRoute>
-                <CheckoutPage />
-              </ProtectedRoute>
-            }
-          />
 
           {/* 404 Route */}
           <Route path="*" element={<NotFoundPage />} />
