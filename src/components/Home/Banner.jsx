@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 export default function Banner() {
   const { data: landingPageData } = useSelector((state) => state.landingPage);
   const bgImage =
-    landingPageData?.banners?.[0]?.banner_image || "/LandingPageBanner.jpg";
+    landingPageData?.banners?.[0]?.banner_image;
   return (
     <div className="relative w-full h-screen bg-[#05070C] flex flex-col items-center justify-end overflow-hidden !pb-20">
       {/* Background Image & Overlays */}

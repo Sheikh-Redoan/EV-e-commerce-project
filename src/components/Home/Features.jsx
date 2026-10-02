@@ -45,7 +45,7 @@ export default function Features() {
             key={feature.id || index} 
             className="!p-[30px] bg-[#1C2A40] rounded-2xl flex flex-col items-start gap-4 hover:shadow-lg transition-shadow"
           >
-            <div className="w-12 h-12 rounded-full  flex justify-center items-center overflow-hidden ">
+            <div className="w-12 h-12 flex justify-center items-center  nb ">
               {typeof feature.icon === 'string' && feature.icon.startsWith('http') ? (
                 <img src={feature.icon} alt={feature.title} className="w-full h-full object-contain" />
               ) : (
