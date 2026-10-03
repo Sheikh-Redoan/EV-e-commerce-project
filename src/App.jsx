@@ -12,6 +12,7 @@ import { ToastContainer } from 'react-toastify';
 
 // Layout
 import MainLayout from './components/Layout/MainLayout';
+import Loader from './components/Loader/Loader';
 
 // Pages - Public
 import LandingPage from './pages/public/LandingPage';
@@ -75,8 +76,8 @@ function App() {
 
   if (isInitializing) {
     return (
-      <div className="flex h-screen items-center justify-center bg-[#05070C]">
-        <p className="text-[#8EA0BD] font-['Inter'] text-sm animate-pulse">Loading EV Systems...</p>
+      <div className="flex h-screen w-screen items-center justify-center bg-[#05070C]">
+        <Loader />
       </div>
     );
   }
