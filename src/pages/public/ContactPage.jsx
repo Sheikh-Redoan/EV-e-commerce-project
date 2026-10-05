@@ -52,26 +52,6 @@ export default function ContactPage() {
             Whether you need help choosing between our 5m and 8m Type 2 charging cables, have a question about installation, or need support after your purchase — our team is here to help. We typically respond within one business day.
           </p>
           
-          <div className="!pt-4 flex flex-col justify-start items-start gap-4">
-            <div className="inline-flex justify-start items-center gap-2.5">
-              <span className="text-[#2BE3FF] text-sm font-semibold font-['Inter']">Email:</span>
-              <a href="mailto:support@evsystems.com.au" className="text-[#8EA0BD] text-sm font-normal font-['Inter'] hover:text-[#2BE3FF] transition-colors">
-                support@evsystems.com.au
-              </a>
-            </div>
-            <div className="inline-flex justify-start items-center gap-2.5">
-              <span className="text-[#2BE3FF] text-sm font-semibold font-['Inter']">Phone:</span>
-              <a href="tel:1300000000" className="text-[#8EA0BD] text-sm font-normal font-['Inter'] hover:text-[#2BE3FF] transition-colors">
-                1300 000 000
-              </a>
-            </div>
-            <div className="inline-flex justify-start items-center gap-2.5">
-              <span className="text-[#2BE3FF] text-sm font-semibold font-['Inter']">Location:</span>
-              <span className="text-[#8EA0BD] text-sm font-normal font-['Inter']">
-                Australia
-              </span>
-            </div>
-          </div>
         </div>
 
         {/* Right Column: Form Card */}
@@ -89,7 +69,7 @@ export default function ContactPage() {
                 <input
                   id="name"
                   type="text"
-                  placeholder="John"
+                  placeholder="Your Name"
                   className={`w-full !px-4 !py-3 bg-[#05070C] text-[#F5F9FF] placeholder-[#8EA0BD] text-sm font-normal font-['Inter'] rounded-[10px] outline outline-1 outline-offset-[-1px] transition-colors focus:outline-[#2BE3FF] ${errors.name ? 'outline-red-500' : 'outline-[#1C2A40]'}`}
                   {...register('name', { 
                     required: 'Name is required',
@@ -107,7 +87,7 @@ export default function ContactPage() {
                 <input
                   id="surname"
                   type="text"
-                  placeholder="Doe"
+                  placeholder="Your Surname"
                   className={`w-full !px-4 !py-3 bg-[#05070C] text-[#F5F9FF] placeholder-[#8EA0BD] text-sm font-normal font-['Inter'] rounded-[10px] outline outline-1 outline-offset-[-1px] transition-colors focus:outline-[#2BE3FF] ${errors.surname ? 'outline-red-500' : 'outline-[#1C2A40]'}`}
                   {...register('surname', { 
                     required: 'Surname is required',
@@ -127,7 +107,7 @@ export default function ContactPage() {
                 <input
                   id="email"
                   type="email"
-                  placeholder="john@example.com"
+                  placeholder="Email Address"
                   className={`w-full !px-4 !py-3 bg-[#05070C] text-[#F5F9FF] placeholder-[#8EA0BD] text-sm font-normal font-['Inter'] rounded-[10px] outline outline-1 outline-offset-[-1px] transition-colors focus:outline-[#2BE3FF] ${errors.email ? 'outline-red-500' : 'outline-[#1C2A40]'}`}
                   {...register('email', { 
                     required: 'Email is required',
@@ -144,7 +124,7 @@ export default function ContactPage() {
                 <input
                   id="telephone"
                   type="tel"
-                  placeholder="+8801700000000"
+                  placeholder="+61 412 345 678"
                   className={`w-full !px-4 !py-3 bg-[#05070C] text-[#F5F9FF] placeholder-[#8EA0BD] text-sm font-normal font-['Inter'] rounded-[10px] outline outline-1 outline-offset-[-1px] transition-colors focus:outline-[#2BE3FF] ${errors.telephone ? 'outline-red-500' : 'outline-[#1C2A40]'}`}
                   {...register('telephone', { 
                     required: 'Telephone is required',

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { paymentAPI } from "../../api/paymentAPI";
 import { toast } from "react-toastify";
@@ -14,6 +14,13 @@ export default function ProductHero({
   );
   const [isProcessing, setIsProcessing] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setActiveImage(
+      product?.gallery_image?.[0]?.image ||
+        "https://placehold.co/600x560?text=Product+Image"
+    );
+  }, [product]);
 
   if (!product) return null;
 
