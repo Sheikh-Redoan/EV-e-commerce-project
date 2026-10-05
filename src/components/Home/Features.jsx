@@ -32,10 +32,10 @@ export default function Features() {
     <section className="w-full bg-[#05070C] px-6 md:!px-20 !py-24 flex flex-col items-center gap-14">
       <div className="flex flex-col items-center gap-2.5 text-center">
         <span className="text-[#2BE3FF] text-xs font-medium font-['DM_Mono'] tracking-widest uppercase">
-          Built for all conditions
+          {landingPageData?.section_titles?.features_subtitle || "Built for all conditions"}
         </span>
         <h2 className="text-[#F5F9FF] text-3xl md:text-4xl font-bold font-['Familjen_Grotesk']">
-          Fast. Reliable. Ready When You Are.
+          {landingPageData?.section_titles?.features_title || "Fast. Reliable. Ready When You Are."}
         </h2>
       </div>
 

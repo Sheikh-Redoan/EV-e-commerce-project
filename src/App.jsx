@@ -9,6 +9,7 @@ import { ROUTES } from './config/routes';
 import './App.css';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
+import { ReactLenis } from 'lenis/react';
 
 // Layout
 import MainLayout from './components/Layout/MainLayout';
@@ -84,9 +85,10 @@ function App() {
   }
 
   return (
-    <Router>
-      <ScrollToTop />
-      <ToastContainer position="bottom-right" theme="dark" />
+    <ReactLenis root>
+      <Router>
+        <ScrollToTop />
+        <ToastContainer position="bottom-right" theme="dark" />
       <MainLayout>
         <Routes>
           {/* Public Routes */}
@@ -104,6 +106,7 @@ function App() {
         </Routes>
       </MainLayout>
     </Router>
+    </ReactLenis>
   );
 }
 

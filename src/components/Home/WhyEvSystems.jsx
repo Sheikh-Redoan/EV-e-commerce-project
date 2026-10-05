@@ -32,10 +32,10 @@ export default function WhyEvSystems() {
     <section className="w-full bg-[#05070C] !px-6 md:!px-20 !py-28 flex flex-col gap-14 items-center">
       <div className="w-full max-w-[1440px] flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
         <h2 className="text-[#F5F9FF] text-3xl md:text-4xl font-bold font-['Familjen_Grotesk']">
-          Why EV Systems
+          {landingPageData?.section_titles?.why_ev_title || "Why EV Systems"}
         </h2>
         <p className="text-[#8EA0BD] text-base font-normal font-['DM_Sans']">
-          Engineered for real-world Australian conditions.
+          {landingPageData?.section_titles?.why_ev_subtitle || "Engineered for real-world Australian conditions."}
         </p>
       </div>
 

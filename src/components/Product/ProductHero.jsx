@@ -181,6 +181,37 @@ export default function ProductHero({
                 Payments processed securely by PayPal. No account required.
               </div>
             </div>
+            {/* Menual and Warranty CTA */}
+            {(product?.manual_pdf || product?.warranty_pdf) && (
+              <div className="flex flex-col sm:flex-row gap-4 mt-2">
+                {product?.manual_pdf && (
+                  <a
+                    href={product.manual_pdf}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 !py-3 px-6 bg-[#0B101A] border border-[#1E293B] hover:border-[#2BE3FF] hover:-translate-y-0.5 rounded-xl flex justify-center items-center gap-2 transition-all duration-300 group"
+                  >
+                    <svg className="w-5 h-5 text-[#8EA0BD] group-hover:text-[#2BE3FF] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    <span className="text-[#F5F9FF] text-sm font-medium font-['DM_Sans']">Download Manual</span>
+                  </a>
+                )}
+                {product?.warranty_pdf && (
+                  <a
+                    href={product.warranty_pdf}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 !py-3 px-6 bg-[#0B101A] border border-[#1E293B] hover:border-[#2BE3FF] hover:-translate-y-0.5 rounded-xl flex justify-center items-center gap-2 transition-all duration-300 group"
+                  >
+                    <svg className="w-5 h-5 text-[#8EA0BD] group-hover:text-[#2BE3FF] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    <span className="text-[#F5F9FF] text-sm font-medium font-['DM_Sans']">Warranty Details</span>
+                  </a>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </section>
