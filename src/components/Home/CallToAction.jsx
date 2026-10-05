@@ -29,12 +29,6 @@ export default function CallToAction() {
         </h2>
         
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
-          <a 
-            href="mailto:support@evsystems.com.au" 
-            className="text-[#8EA0BD] text-sm font-normal font-['DM_Sans'] hover:text-[#F5F9FF] transition-colors"
-          >
-            support@evsystems.com.au
-          </a>
           {isExternal ? (
             <a 
               href={buttonUrl} 
