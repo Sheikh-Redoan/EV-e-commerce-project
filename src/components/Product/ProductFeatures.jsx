@@ -50,11 +50,11 @@ export default function ProductFeatures() {
               key={feature.id}
               className="self-stretch bg-[#0A1119] rounded-2xl outline outline-1 outline-offset-[-1px] outline-[#1C2A40] flex flex-col justify-start items-start overflow-hidden"
             >
-              <div className="self-stretch h-56 relative bg-[#101A2C] overflow-hidden">
+              <div className="self-stretch md:h-56 h-auto relative bg-[#101A2C] overflow-hidden">
                 <img
                   src={feature.image}
                   alt={feature.title}
-                  className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+                  className="w-full h-full sm:object-cover object-contain transition-transform duration-700 hover:scale-105"
                 />
               </div>
               <div className="self-stretch !px-7 !pt-6 !pb-7 flex flex-col justify-start items-start gap-2 overflow-hidden">

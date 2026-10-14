@@ -106,9 +106,9 @@ export default function ProductHero({
 
           {/* Product Details */}
           <div className="flex-1 flex flex-col items-start gap-5 w-full ">
-            <div className="justify-start text-[#2BE3FF] text-xs font-semibold font-['DM_Sans'] tracking-wider uppercase">
+            {/* <div className="justify-start text-[#2BE3FF] text-xs font-semibold font-['DM_Sans'] tracking-wider uppercase">
               Type 2 EV Charging Cable
-            </div>
+            </div> */}
             <div className="w-full md:w-[640px] justify-start text-[#F5F9FF] text-3xl md:text-4xl font-bold font-['Familjen_Grotesk']">
               {product.product_title}
             </div>
@@ -124,9 +124,19 @@ export default function ProductHero({
 
             {/* Checkout Panel */}
             <div className="w-full !p-6 md:!p-7 bg-[#0A1119] rounded-2xl outline outline-1 outline-offset-[-1px] outline-[#1C2A40] flex flex-col gap-4 !mt-2 box-border">
-              <div className="text-[#F5F9FF] text-xs font-semibold font-['DM_Sans']">
-                Select cable length
-              </div>
+              {product.product_variation?.length > 0 && (
+                <div className="text-[#F5F9FF] text-xs font-semibold font-['DM_Sans']">
+                  {product.product_variation.some(
+                    (v) =>
+                      v.length != null &&
+                      v.length !== "" &&
+                      v.length !== "null" &&
+                      Number(v.length) > 0
+                  )
+                    ? "Select cable length"
+                    : "Select option"}
+                </div>
+              )}
 
               {/* Variations Selector */}
               <div className="w-full flex flex-col sm:flex-row gap-3">
@@ -135,6 +145,12 @@ export default function ProductHero({
                   : []
                 ).map((variation) => {
                   const isSelected = selectedVariation?.id === variation.id;
+                  const hasLength =
+                    variation.length != null &&
+                    variation.length !== "" &&
+                    variation.length !== "null" &&
+                    Number(variation.length) > 0;
+
                   return (
                     <button
                       key={variation.id}
@@ -145,13 +161,25 @@ export default function ProductHero({
                           : "bg-[#05070C] outline outline-1 outline-offset-[-1px] outline-[#1C2A40] hover:outline-[#8EA0BD]"
                       }`}
                     >
+                      {hasLength && (
+                        <div
+                          className={`text-center justify-start text-lg font-bold font-['DM_Sans'] ${
+                            isSelected ? "text-zinc-950" : "text-[#F5F9FF]"
+                          }`}
+                        >
+                          {Number(variation.length)}m
+                        </div>
+                      )}
                       <div
-                        className={`text-center justify-start text-lg font-bold font-['DM_Sans'] ${isSelected ? "text-zinc-950" : "text-[#F5F9FF]"}`}
-                      >
-                        {Number(variation.length)}m
-                      </div>
-                      <div
-                        className={`text-center justify-start text-xs font-normal font-['DM_Sans'] ${isSelected ? "text-neutral-900" : "text-[#8EA0BD]"}`}
+                        className={`text-center justify-start ${
+                          hasLength
+                            ? `text-xs font-normal font-['DM_Sans'] ${
+                                isSelected ? "text-neutral-900" : "text-[#8EA0BD]"
+                              }`
+                            : `text-lg font-bold font-['DM_Sans'] ${
+                                isSelected ? "text-zinc-950" : "text-[#F5F9FF]"
+                              }`
+                        }`}
                       >
                         ${variation.price} AUD
                       </div>
